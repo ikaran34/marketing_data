@@ -1,0 +1,17 @@
+Region,Revenue,Product,Sales_Channel,Advertising_Spend
+North,20000,Product A,Online,5000
+South,18000,Product B,Offline,4000
+East,22000,Product A,Online,6000
+West,15000,Product C,Offline,3000
+North,25000,Product B,Online,7000
+South,17000,Product A,Offline,3500
+East,21000,Product C,Online,5000
+West,16000,Product B,Offline,4500
+North,23000,Product C,Online,6500
+South,19000,Product A,Offline,4200
+East,24000,Product B,Online,5500
+West,15500,Product A,Offline,3800
+North,21000,Product B,Online,4800
+South,20000,Product C,Offline,4300
+East,22500,Product A,Online,6100
+West,14500,Product C,Offline,3200

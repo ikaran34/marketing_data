@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  scraper_asos:
+    build: ./scraper_asos
+    ports:
+      - "8000:8000"
+  scraper_zara:
+    build: ./scraper_zara
+    ports:
+      - "8003:8000"
+  aggregator:
+    build: ./aggregator
+    ports:
+      - "8001:8000"
+    depends_on:
+      - scraper_asos
+      - scraper_zara
+  gateway:
+    build: ./gateway
+    ports:
+      - "8002:8000"
+    depends_on:
+      - aggregator
