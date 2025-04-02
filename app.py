@@ -1,27 +1,50 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
-app = Flask(__name__)
-
-# Load dataset
+# Load data
 df = pd.read_csv("marketing_data.csv")
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Title of the app
+st.title("Marketing Data Insights")
 
-@app.route('/filter', methods=['GET', 'POST'])
-def filter_data():
-    filtered_df = df  # Start with all data
+# Show the dataframe
+st.subheader("Marketing Data")
+st.write(df)
 
-    if request.method == 'POST':
-        min_revenue = request.form.get('min_revenue')
-        
-        if min_revenue:
-            min_revenue = float(min_revenue)
-            filtered_df = df[df['Revenue'] >= min_revenue]  # Filter rows
+# Calculate and display average revenue
+avg_revenue = df['Revenue'].mean()
+st.write(f"Average Revenue: {avg_revenue}")
 
-    return render_template('filter.html', tables=[filtered_df.to_html(classes='data')], titles=filtered_df.columns.values)
+# Show some basic statistics of the data
+st.subheader("Data Statistics")
+st.write(df.describe())
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Show revenue distribution with a histogram
+st.subheader("Revenue Distribution")
+fig, ax = plt.subplots()
+ax.hist(df['Revenue'], bins=10, color='blue', edgecolor='black')
+ax.set_title('Distribution of Revenue')
+ax.set_xlabel('Revenue')
+ax.set_ylabel('Frequency')
+st.pyplot(fig)
+
+# Show a line chart for trend analysis (if relevant data exists)
+st.subheader("Revenue Trend Over Time")
+fig, ax = plt.subplots()
+df['Date'] = pd.to_datetime(df['Date'])
+df_sorted = df.sort_values(by='Date')
+ax.plot(df_sorted['Date'], df_sorted['Revenue'], marker='o', color='green')
+ax.set_title('Revenue Trend Over Time')
+ax.set_xlabel('Date')
+ax.set_ylabel('Revenue')
+st.pyplot(fig)
+
+# Option to filter data (example: filter by channel)
+st.subheader("Filter Data by Marketing Channel")
+channel = st.selectbox("Select Marketing Channel", df['Channel'].unique())
+filtered_data = df[df['Channel'] == channel]
+st.write(f"Showing data for {channel} marketing channel")
+st.write(filtered_data)
+
+# Additional plots or analysis can be added below
